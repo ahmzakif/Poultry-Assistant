@@ -1,0 +1,226 @@
+/* -----------------------------------------------------------
+   style.css – Clean, Responsive & Theme-able Chat UI
+   Refactor: 2025-06-09  • equal-size buttons & adaptive icon
+   ----------------------------------------------------------- */
+
+/* ---------- 1. CSS Custom Properties ---------- */
+:root{
+	/* Palette – LIGHT */
+	--clr-primary:      #64748b; /* outgoing bubble  */
+	--clr-secondary:    #084b21; /* incoming bubble  */
+	--clr-bg:           #f3f5f8; /* page background */
+	--clr-card:         #ffffff; /* card background */
+	--clr-border:       #e0e4ea;
+	--clr-text:         #1f2d3d;
+	--clr-text-muted:   #64748b;
+  
+	/* NEW: ikon gelap utk light mode */
+	--icon:             #1f2d3d;
+  
+	/* Shape & spacing */
+	--radius: 1rem;
+	--radius-lg: 1.5rem;
+	--gap: 1rem;
+	--avatar-size: 80px;
+  }
+  
+  /* Dark-mode overrides */
+  body.dark{
+	--clr-primary:      #94a3b8; /* outgoing bubble (blue-400) */
+	--clr-secondary:    #01ab59; /* incoming bubble (green-500) */
+	--clr-bg:           #0f172a; /* slate-900 */
+	--clr-card:         #1e293b; /* slate-800 */
+	--clr-border:       #334155; /* slate-700 */
+	--clr-text:         #eaeaea; /* slate-50  */
+	--clr-text-muted:   #94a3b8; /* slate-400 */
+  
+	/* Ikon putih utk dark mode */
+	--icon:             #ffffff;
+  }
+  
+  /* ---------- 2. Basic Reset ---------- */
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{
+	height:100%;
+	font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+	background:var(--clr-bg);
+	color:var(--clr-text);
+	-webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  button,input,textarea{font:inherit}
+  
+  /* ---------- 3. Layout ---------- */
+  .chat{
+	min-height:100vh;
+	display:flex;
+	justify-content:center;
+	padding:5vh var(--gap);
+  }
+  .card{
+	width:100%;
+	max-width:900px;
+	max-height:90vh;
+	display:flex;
+	flex-direction:column;
+	background:var(--clr-card);
+	border:1px solid var(--clr-border);
+	border-radius:var(--radius-lg);
+	overflow:hidden;
+	box-shadow:0 6px 20px rgba(0,0,0,.06);
+  }
+  
+  /* ---------- 4. Scrollable Areas ---------- */
+  .msg_card_body,
+  .contacts_body{
+	padding:var(--gap);
+	overflow-y:auto;
+  }
+  .msg_card_body::-webkit-scrollbar,
+  .contacts_body::-webkit-scrollbar{width:8px}
+  .msg_card_body::-webkit-scrollbar-thumb,
+  .contacts_body::-webkit-scrollbar-thumb{
+	background:var(--clr-border);
+	border-radius:4px;
+  }
+  
+  /* ---------- 5. Header & Footer ---------- */
+  .card-header,
+  .card-footer{background:transparent;border:none}
+  
+  .card-header{
+	padding:calc(var(--gap)*1.25) var(--gap);
+	border-bottom:1px solid var(--clr-border);
+	display:flex;
+	align-items:center;
+	justify-content:space-between;
+	min-height:calc(var(--avatar-size)+var(--gap));
+  }
+  .card-footer{
+	padding:calc(var(--gap)*0.5) var(--gap);
+	border-top:1px solid var(--clr-border);
+	display:flex;
+	gap:var(--gap);
+  }
+  .card-header .user_info span{font-size:1.35rem;font-weight:600}
+  .card-header .user_info small{font-size:.85rem}
+  
+  /* ---------- 6. Inputs & Generic Buttons ---------- */
+  .type_msg{
+	flex:1;
+	padding:.75rem 1rem;
+	border:1px solid var(--clr-border);
+	border-radius:var(--radius);
+	background:#fff;
+	resize:none;
+	min-height:48px;
+  }
+  body.dark .type_msg{background:var(--clr-card);color:var(--clr-text)}
+  
+  .btn{
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	padding:0 1rem;
+	border:1px solid var(--clr-border);
+	background:#fff;
+	border-radius:var(--radius);
+	cursor:pointer;
+	transition:background .2s;
+	color:var(--icon);          /* ikuti tema */
+  }
+  .btn:hover{background:#f0f2f5}
+  body.dark .btn{background:var(--clr-card)}
+  body.dark .btn:hover{background:#243349}
+  
+  /* attach / send ends */
+  .attach_btn{border-radius:var(--radius) 0 0 var(--radius)}
+  .send_btn  {border-radius:0 var(--radius) var(--radius) 0}
+  
+  /* ---------- 7. Header Action Buttons ------------ */
+  /* ukuran & tampilan SAMA untuk theme & reset */
+  .theme-toggle,
+  .reset-btn{
+	width:42px;
+	height:42px;
+	border-radius:50%;
+	background:var(--clr-card);
+	border:1px solid var(--clr-border);
+	color:var(--icon);
+	cursor:pointer;
+	transition:background .2s;
+	font-size:1rem;
+  }
+  .theme-toggle:hover,
+  .reset-btn:hover{background:#e5e8ec}
+  body.dark .theme-toggle,
+  body.dark .reset-btn{background:var(--clr-card)}
+  body.dark .theme-toggle:hover,
+  body.dark .reset-btn:hover{background:#243349}
+  
+  /* ---------- 8. Message Bubbles ---------- */
+  .message{display:flex;gap:.5rem;margin-bottom:1.25rem}
+  .message.incoming{justify-content:flex-start}
+  .message.outgoing{justify-content:flex-end}
+  
+  .bubble{
+	max-width:70%;
+	padding:.75rem 1rem;
+	border-radius:var(--radius-lg);
+	position:relative;
+	word-wrap:break-word;
+	white-space:pre-wrap;
+	line-height:1.4;
+  }
+  .incoming .bubble{
+	background:var(--clr-secondary);
+	color:#fff;
+	border-bottom-left-radius:0;
+  }
+  .outgoing .bubble{
+	background:var(--clr-primary);
+	color:#fff;
+	border-bottom-right-radius:0;
+  }
+  
+  /* ikon dalam reset & send mengikuti var(--icon) */
+  .reset-btn i,
+  .send_btn i{color:var(--icon)}
+  
+  /* ---------- 9. Contact List (optional sidebar) ---------- */
+  .contacts{list-style:none}
+  .contacts li{
+	padding:.5rem .75rem;
+	border-radius:var(--radius);
+	cursor:pointer;
+	display:flex;
+	align-items:center;
+	gap:.75rem;
+	transition:background .2s;
+  }
+  .contacts li:hover,
+  .contacts li.active{background:#f0f2f5}
+  body.dark .contacts li:hover,
+  body.dark .contacts li.active{background:#243349}
+  
+  .user_img{
+	width:var(--avatar-size);
+	height:var(--avatar-size);
+	border-radius:50%;
+	object-fit:cover;
+	flex-shrink:0;
+	border:2px solid #fff;
+  }
+  
+  /* ---------- 10. Media Queries ---------- */
+  @media(max-width:768px){.card{max-height:85vh}}
+  @media(max-width:480px){
+	.msg_card_body,.contacts_body{padding:calc(var(--gap)*0.75)}
+	.bubble{max-width:85%}
+  }
+  
+  /* ---------- 11. Utility ---------- */
+  .text-center{text-align:center}
+  .hidden{display:none!important}
+  .mt-auto{margin-top:auto!important}
+  
